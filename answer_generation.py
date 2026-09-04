@@ -1,7 +1,11 @@
 from langchain_chroma import Chroma
-from langchain_ollama import OllamaEmbeddings
+from langchain_core.messages.human import HumanMessage
+from langchain_core.messages.system import SystemMessage
+from langchain_ollama import ChatOllama, OllamaEmbeddings
 
 persistent_directory = "db/chroma_db"
+
+# Loading embeddings and Vector store
 embedding_model = OllamaEmbeddings(model="embeddinggemma")
 
 db = Chroma(
@@ -30,6 +34,35 @@ print(f"User Query: {query}")
 print("--- Context ---")
 for i, doc in enumerate(relevant_docs, 1):
     print(f"Document {i}:\n{doc.page_content}\n")
+
+# combine the query and the revelant documents content
+combine_input = f"""Based on the following documents, answer the question: {query}
+
+Documents:
+{chr(10).join([f"-{doc.page_content}" for doc in relevant_docs])}
+
+Please provide a clear answer based on the above documents. If you can't find the answer in the documents, please respond with "I don't have enough information to answer that question."
+
+"""
+
+# create a ollama model
+model = ChatOllama(model="llama3")
+
+# Define the messages for the model
+messages = [
+    SystemMessage(content="You are a helpful assistant that answers questions based on the provided documents."),
+    HumanMessage(content=combine_input)
+]
+
+# Invoke the model with the combined input
+result = model.invoke(messages)
+
+
+# Display the full result and content only
+print("\n ---Generated Response ---")
+print("\n ---Content Only ---")
+print(result.content)
+
 
 # Synthetic Questions:
 
