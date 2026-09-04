@@ -29,7 +29,7 @@ print(f"User Query: {query}")
 # Display results
 print("--- Context ---")
 for i, doc in enumerate(relevant_docs, 1):
-    print(f"Document {i}:\n{doc.page_content}\n")
+    print(f"Document {i}:\n{doc.page_content[:200]}...\n")
 
 # Synthetic Questions:
 

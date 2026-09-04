@@ -52,7 +52,7 @@ def split_documents(documents, chunk_size=1000, chunk_overlap=0):
             print(f"Source: {chunk.metadata['source']}")
             print(f"Length: {len(chunk.page_content)} characters")
             print("Content:")
-            print(chunk.page_content)
+            print(f"Preview: {chunk.page_content[:200]}...")
             print("_" * 50)
 
         if len(chunks) > 5:

@@ -33,13 +33,13 @@ print(f"User Query: {query}")
 # Display results
 print("--- Context ---")
 for i, doc in enumerate(relevant_docs, 1):
-    print(f"Document {i}:\n{doc.page_content}\n")
+    print(f"Document {i}:\n{doc.page_content[:200]}...\n")
 
 # combine the query and the revelant documents content
 combine_input = f"""Based on the following documents, answer the question: {query}
 
 Documents:
-{chr(10).join([f"-{doc.page_content}" for doc in relevant_docs])}
+{chr(10).join([f"-{doc.page_content[:200]}..." for doc in relevant_docs])}
 
 Please provide a clear answer based on the above documents. If you can't find the answer in the documents, please respond with "I don't have enough information to answer that question."
 

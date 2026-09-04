@@ -42,7 +42,7 @@ def ask_question(user_question):
     print(f"Found {len(docs)} relevant documents")
     for i, doc in enumerate(docs):
         # show first two lines of each document
-        lines = doc.page_content.split("\n")
+        lines = doc.page_content[:200].split("\n")
         preview = "\n".join(lines)
         print(f"  Doc {i}: {preview}...")
 
@@ -50,7 +50,7 @@ def ask_question(user_question):
     combined_output = f"""Based on the following documents, please answer the question: {user_question}\n\n
 
     Documents:
-    {"\n".join([f"- {doc.page_content}" for doc in docs])}
+    {"\n".join([f"- {doc.page_content[:200]}..." for doc in docs])}
 
     Please provide a clear, helpful answer using only the information from these documents. If you can't find the answer in the documents, say "I don't have enough information to answer that question based on the provided documents."
     """
